@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>hw1 choose person</title>
+</head>
+<body>
+  <span style='white-space: nowrap;'><input id='IdNewNames' type="text"> <button id='IdAddPeople'>Add People</button></span>
+  <ul id='IdPeopleList'></ul>
+
+  <span style='white-space: nowrap;'><input type="Range" min="2"> <button id='IdGetRandomGroups'>Random groups</button></span>
+  <script>
+  'use strict'
+function g() {
+  return document.getElementById(arguments[0])
+}
+
+function doAddPeople(e) {
+
+  console.log('clicked' + e)
+  debugger
+  var x =g('IdNewNames')
+  var newNames = g('IdNewNames').value
+  newNames = newNames.trim()
+  if (newNames === "") {
+    g('IdNewNames').focus()
+    return
+  }
+  var names;
+  if (newNames.indexOf(",") !== -1) {
+    names = parseNames(newNames)
+  } else {
+    names = [newNames]
+  }
+
+  var boxes = document.getElementsByClassName('cBox')
+  if (boxes.length > 1) {
+    boxes[0].remove()
+  }
+}
+
+// Wait until the DOM has finished loading
+// then initialize things such as event handlers
+document.addEventListener('DOMContentLoaded', init)
+var addPeopleRef
+var newNamesRef
+function init() {
+  addPeopleRef = g("IdAddPeople")
+  newNamesRef = g("IdNewNames")
+  addPeopleRef.setAttribute("disabled", "true");
+  addPeopleRef.addEventListener('click', doAddPeople)
+  newNamesRef.addEventListener('keyup', updateAddButton)
+}
+
+function updateAddButton(e) {
+  if ((newNamesRef.value).trim() !== "") {
+    addPeopleRef.removeAttribute("disabled")
+    //console.log('add people ref should be false' )
+  } else {
+    addPeopleRef.setAttribute("disabled", "true");
+    //console.log('add people ref should be true!!' )
+  }
+  console.log('newNamesRef.value:' + newNamesRef.value + ' (newNamesRef.value).trim():' + (newNamesRef.value).trim() )
+}
+
+function parseNames() {
+  return nameSet = (arguments[0].split(',')).trim()
+}
+  </script>
+</body>
+</html>
