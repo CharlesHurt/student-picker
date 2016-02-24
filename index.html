@@ -3,12 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <title>hw1 choose person</title>
+<style>
+* {
+  font-size:1em;
+}
+
+.cWide {
+  width:70%;
+}
+
+.cNarrow {
+  width:4em;
+}
+
+span {
+  white-space: nowrap;
+}
+.cPanel {
+  border:1px solid gray;
+  padding:1em;
+  margin:1em;
+  display:inline-block;
+  white-space: nowrap;
+}
+</style>
 </head>
 <body>
-  <span style='white-space: nowrap;'><input id='IdNewNames' type="text"> <button id='IdAddPeople'>Add People</button></span>
+  <fieldset><legend>Add people</legend><input id='IdNewNames' class='cWide'> <button id='IdAddPeopleButton'>Add</button></fieldset>
   <ul id='IdPeopleList'></ul>
 
-  <span style='white-space: nowrap;'><input type="Range" min="2"> <button id='IdGetRandomGroups'>Random groups</button></span>
+  <fieldset><legend>Get random people</legend>
+    <input id='IdGroupSize' type="Number" class='cNarrow' min="2">
+    <button id='IdGroupSizeButton'>Get Random groups</button>
+    <button id='IdResetButton'>Reset</button></fieldset>
   <script>
   'use strict'
 function g() {
@@ -16,7 +43,6 @@ function g() {
 }
 
 function doAddPeople(e) {
-
   console.log('clicked' + e)
   debugger
   var x =g('IdNewNames')
@@ -44,12 +70,17 @@ function doAddPeople(e) {
 document.addEventListener('DOMContentLoaded', init)
 var addPeopleRef
 var newNamesRef
+var groupSizeRef
+
 function init() {
-  addPeopleRef = g("IdAddPeople")
+  addPeopleRef = g("IdAddPeopleButton")
   newNamesRef = g("IdNewNames")
+  groupSizeRef =  g("IdGroupSizeButton")
+
   addPeopleRef.setAttribute("disabled", "true");
   addPeopleRef.addEventListener('click', doAddPeople)
   newNamesRef.addEventListener('keyup', updateAddButton)
+  groupSizeRef.addEventListener('keyup', updateAddButton)
 }
 
 function updateAddButton(e) {
@@ -60,7 +91,7 @@ function updateAddButton(e) {
     addPeopleRef.setAttribute("disabled", "true");
     //console.log('add people ref should be true!!' )
   }
-  console.log('newNamesRef.value:' + newNamesRef.value + ' (newNamesRef.value).trim():' + (newNamesRef.value).trim() )
+  //console.log('newNamesRef.value:' + newNamesRef.value + ' (newNamesRef.value).trim():' + (newNamesRef.value).trim() )
 }
 
 function parseNames() {
