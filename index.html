@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <title>hw1 choose person</title>
 <style>
+body, table, input, button {
+  font-family: sans-serif;
+  font-weight: normal;
+}
 * {
   font-size:1em;
 }
@@ -26,16 +30,26 @@ span {
   display:inline-block;
   white-space: nowrap;
 }
+#IdDualListBox {
+  border:1px solid gray;
+}
 </style>
 </head>
 <body>
-  <fieldset><legend>Add people</legend><input id='IdNewNames' class='cWide'> <button id='IdAddPeopleButton'>Add</button></fieldset>
-  <ul id='IdPeopleList'></ul>
-
-  <fieldset><legend>Get random people</legend>
+  <fieldset><legend>Add people</legend>
+    <input id='IdNewNames' class='cWide' value='asdf,asdf, asdf,'> <button id='IdAddPeopleButton'>Add</button></fieldset>
+  <fieldset><legend>Get people</legend>
     <input id='IdGroupSize' type="Number" class='cNarrow' min="2">
     <button id='IdGroupSizeButton'>Get Random groups</button>
     <button id='IdResetButton'>Reset</button></fieldset>
+    <table>
+      <tr>
+        <td><ul id='IdAvailable'></ul></td>
+        <td><ul id='IdCalledUpon'></ul></td>
+      </tr>
+    </table>
+
+
   <script>
   'use strict'
 function g() {
@@ -43,8 +57,6 @@ function g() {
 }
 
 function doAddPeople(e) {
-  console.log('clicked' + e)
-  debugger
   var x =g('IdNewNames')
   var newNames = g('IdNewNames').value
   newNames = newNames.trim()
@@ -52,13 +64,15 @@ function doAddPeople(e) {
     g('IdNewNames').focus()
     return
   }
+
   var names;
   if (newNames.indexOf(",") !== -1) {
     names = parseNames(newNames)
   } else {
     names = [newNames]
   }
-
+  console.log(names)
+debugger
   var boxes = document.getElementsByClassName('cBox')
   if (boxes.length > 1) {
     boxes[0].remove()
@@ -71,12 +85,16 @@ document.addEventListener('DOMContentLoaded', init)
 var addPeopleRef
 var newNamesRef
 var groupSizeRef
+var availableRef
+var calledRef
 
 function init() {
   addPeopleRef = g("IdAddPeopleButton")
   newNamesRef = g("IdNewNames")
   groupSizeRef =  g("IdGroupSizeButton")
-
+  availableRef =  g("IdAvailable")
+  calledRef =  g("IdCalledUpon")
+debugger
   addPeopleRef.setAttribute("disabled", "true");
   addPeopleRef.addEventListener('click', doAddPeople)
   newNamesRef.addEventListener('keyup', updateAddButton)
@@ -94,8 +112,15 @@ function updateAddButton(e) {
   //console.log('newNamesRef.value:' + newNamesRef.value + ' (newNamesRef.value).trim():' + (newNamesRef.value).trim() )
 }
 
-function parseNames() {
-  return nameSet = (arguments[0].split(',')).trim()
+function parseNames(x) {
+  var nameSet = (x.split(','))
+  return nameSet.map(function(cur, index, arr) {
+    console.log('cur type:' + typeof cur)
+    cur = cur.trim()
+    cur = cur.replace(/,/g, '')
+    return cur
+  })
+
 }
   </script>
 </body>
