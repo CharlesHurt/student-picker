@@ -50,10 +50,23 @@ span {
     </table>
 
 
-  <script>
-  'use strict'
+<script>
+'use strict'
 function g() {
   return document.getElementById(arguments[0])
+}
+
+function insertNames(names) {
+
+  for (var i in names) {
+    var li = document.createElement('li')
+    li.innerHTML = names[i]
+    console.log(li)
+    //debugger
+    //li.classList.add('box', 'red')
+    availableRef.appendChild(li)
+  }
+
 }
 
 function doAddPeople(e) {
@@ -71,8 +84,8 @@ function doAddPeople(e) {
   } else {
     names = [newNames]
   }
-  console.log(names)
-debugger
+  insertNames(names)
+
   var boxes = document.getElementsByClassName('cBox')
   if (boxes.length > 1) {
     boxes[0].remove()
@@ -94,7 +107,7 @@ function init() {
   groupSizeRef =  g("IdGroupSizeButton")
   availableRef =  g("IdAvailable")
   calledRef =  g("IdCalledUpon")
-debugger
+
   addPeopleRef.setAttribute("disabled", "true");
   addPeopleRef.addEventListener('click', doAddPeople)
   newNamesRef.addEventListener('keyup', updateAddButton)
