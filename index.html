@@ -37,7 +37,7 @@ span {
 </head>
 <body>
   <fieldset><legend>Add people</legend>
-    <input id='IdNewNames' class='cWide' value='asdf,asdf, asdf,'> <button id='IdAddPeopleButton'>Add</button></fieldset>
+    <input id='IdNewNames' class='cWide' value='p1,p2, p3, p4'> <button id='IdAddPeopleButton'>Add</button></fieldset>
   <fieldset><legend>Get people</legend>
     <input id='IdGroupSize' type="Number" class='cNarrow' min="2">
     <button id='IdGroupSizeButton'>Get Random groups</button>
@@ -49,7 +49,9 @@ span {
         <td><ul id='IdCalledUpon'></ul></td>
       </tr>
     </table>
-
+<ul>
+  <li>whomoev3r</li>
+</ul>
 
 <script>
 'use strict'
@@ -62,10 +64,64 @@ function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min) + min)
 }
 
+function getAvailable() {
+  debugger
+  var i = availableRef.children.length - 1
+  var numAvail = 0
+  while (i >= 0) {
+    if (availableRef.children[i].style.color !== 'gray') {
+      numAvail++
+    }
+    i--
+  }
+  return false
+}
+
+function getShuffledName() {
+  var i = 0
+  var localNames = []
+  var numberOfPeople = availableRef.children.length
+  var temp
+  while (i < numberOfPeople) {
+    localNames.push(availableRef.children[i].innerHTML)
+    i++
+  }
+
+  for (i=0; i < numberOfPeople; i++) {
+    var randomPerson = getRandomNumber(0, numberOfPeople)
+    temp = localNames[i]
+    localNames[i] = localNames[randomPerson]
+    localNames[randomPerson] = temp
+
+  }
+  return localNames.pop()
+  console.log(localNames)
+}
+
 function getRandomPerson() {
+  console.log(getShuffledName())
+  return
+
+  var someoneAvailable = getAvailable()
+  if (someoneAvailable) {
+    //getPersonRef.removeClass = disabled
+    var found = false
+    while(!found) {
+      var randomPerson = getRandomNumber(0, availableRef.children.length)
+      if (availableRef.children[randomPerson].style.color !== 'gray') {
+        found = true
+        calledOn.Ref.add(availableRef.children[randomPerson])
+      }
+    }
+  } else {
+    //getPersonRef.disabled = true
+  }
+
+
   console.log('#:' + availableRef.children.length)
-  console.log('r:' + getRandomNumber(0, availableRef.children.length))
-    
+  //
+  //console.log(availableRef.children[randomPerson].style.color='gray')
+
 }
 
 function insertNames(names) {
@@ -74,6 +130,8 @@ function insertNames(names) {
     li.innerHTML = names[i]
     availableRef.appendChild(li)
   }
+
+  console.log('done inserting names')
 }
 
 function doAddPeople(e) {
@@ -92,11 +150,6 @@ function doAddPeople(e) {
     names = [newNames]
   }
   insertNames(names)
-
-  var boxes = document.getElementsByClassName('cBox')
-  if (boxes.length > 1) {
-    boxes[0].remove()
-  }
 }
 
 // Wait until the DOM has finished loading
@@ -110,7 +163,7 @@ var calledRef
 var getRandomPersonRef
 
 function init() {
-  addPeopleRef = g("IdAddPeopleButton")
+  addPeopleRef = document.getElementById('IdAddPeopleButton') //g("IdAddPeopleButton")
   newNamesRef = g("IdNewNames")
   groupSizeRef =  g("IdGroupSizeButton")
   availableRef =  g("IdAvailable")
