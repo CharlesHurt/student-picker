@@ -41,6 +41,7 @@ span {
   <fieldset><legend>Get people</legend>
     <input id='IdGroupSize' type="Number" class='cNarrow' min="2">
     <button id='IdGroupSizeButton'>Get Random groups</button>
+    <button id='IdGetRandomPersonButton'>Get person</button>
     <button id='IdResetButton'>Reset</button></fieldset>
     <table>
       <tr>
@@ -56,17 +57,23 @@ function g() {
   return document.getElementById(arguments[0])
 }
 
-function insertNames(names) {
+// Courtesy of stack overflow
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min) + min)
+}
 
+function getRandomPerson() {
+  console.log('#:' + availableRef.children.length)
+  console.log('r:' + getRandomNumber(0, availableRef.children.length))
+    
+}
+
+function insertNames(names) {
   for (var i in names) {
     var li = document.createElement('li')
     li.innerHTML = names[i]
-    console.log(li)
-    //debugger
-    //li.classList.add('box', 'red')
     availableRef.appendChild(li)
   }
-
 }
 
 function doAddPeople(e) {
@@ -100,6 +107,7 @@ var newNamesRef
 var groupSizeRef
 var availableRef
 var calledRef
+var getRandomPersonRef
 
 function init() {
   addPeopleRef = g("IdAddPeopleButton")
@@ -107,11 +115,13 @@ function init() {
   groupSizeRef =  g("IdGroupSizeButton")
   availableRef =  g("IdAvailable")
   calledRef =  g("IdCalledUpon")
+  getRandomPersonRef = g('IdGetRandomPersonButton')
 
   addPeopleRef.setAttribute("disabled", "true");
   addPeopleRef.addEventListener('click', doAddPeople)
   newNamesRef.addEventListener('keyup', updateAddButton)
   groupSizeRef.addEventListener('keyup', updateAddButton)
+  getRandomPersonRef.addEventListener('click', getRandomPerson)
 }
 
 function updateAddButton(e) {
